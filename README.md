@@ -6,7 +6,7 @@ I am releasing this script **as is** and I have no intention of actively maintai
 ## How to use the script
 ### Running the script
 1. Install Python 3 on your computer if it isn't already installed
-2. Open a terminal and run `py engine_generator.py` or `py engine.py`
+2. Open a terminal and run `py engine.py`
 
 ### Modifying parameters
 All engine parameters are specified in the `Engine` class. Understanding how this works will require some knowledge of programming and there isn't a specific procedure to follow. The best way to understand how the script to work is to analyze the `generate_i4()`, `generate_v24()` and `generate_v69()` functions located in the `engine.py` script. It should be clear how the script works from these examples.
