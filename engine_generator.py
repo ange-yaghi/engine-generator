@@ -63,14 +63,18 @@ class Engine:
         self.camshaft_node_name = "generated_camshaft"
         self.lobe_separation = 114
         self.camshaft_base_radius = 0.5
+        self.intake_lobe_center = 90
+        self.exhaust_lobe_center = 112
 
         self.intake_lobe_lift = 551
         self.intake_lobe_duration = 234
         self.intake_lobe_gamma = 1.1
+        self.intake_lobe_steps = 512
 
         self.exhaust_lobe_lift = 551
         self.exhaust_lobe_duration = 235
         self.exhaust_lobe_gamma = 1.1
+        self.exhaust_lobe_steps = 512
 
         self.cylinder_head_node_name = "generated_head"
         self.chamber_volume = 300
@@ -92,6 +96,19 @@ class Engine:
         self.idle_throttle_plate_position = 0.999
         self.engine_sim_version = [0, 1, 12, 2]
 
+        self.timing_curve = [
+            [0,18],
+            [1000,40],
+            [2000,40],
+            [3000,40],
+            [4000,40],
+            [5000,40],
+            [6000,40],
+            [7000,40],
+            [8000,40],
+            [9000,40],
+        ]
+        
         self.rev_limit = self.redline + 1000
         self.limiter_duration = 0.1
 
@@ -394,40 +411,38 @@ class Engine:
             file.write("        .add_cylinder_bank(b{})\n".format(index))
         file.write("\n")
 
-        file.write("    engine.add_crankshaft(c0)\n")
+        file.write("    engine.add_crankshaft(c0)\n\n")
 
         file.write("""    harmonic_cam_lobe intake_lobe(
         duration_at_50_thou: {} * units.deg,
         gamma: {},
         lift: {} * units.thou,
-        steps: 512
+        steps: {}
     )
 
     harmonic_cam_lobe exhaust_lobe(
         duration_at_50_thou: {} * units.deg,
         gamma: {},
         lift: {} * units.thou,
-        steps: 512
-    )\n\n""".format(self.intake_lobe_duration, self.intake_lobe_gamma, self.intake_lobe_lift, self.exhaust_lobe_duration, self.exhaust_lobe_gamma, self.exhaust_lobe_lift))
+        steps: {}
+    )\n\n""".format(self.intake_lobe_duration, self.intake_lobe_gamma, self.intake_lobe_lift, self.intake_lobe_steps, self.exhaust_lobe_duration, self.exhaust_lobe_gamma, self.exhaust_lobe_lift, self.exhaust_lobe_steps))
         
-        file.write("""    generated_camshaft camshaft(
+        file.write("""    {} camshaft(
         lobe_profile: "N/A",
 
         intake_lobe_profile: intake_lobe,
         exhaust_lobe_profile: exhaust_lobe,
-        intake_lobe_center: 90 * units.deg,
-        exhaust_lobe_center: 112 * units.deg,
-        base_radius: 1.0 * units.inch
-    )\n\n""")
+        intake_lobe_center: {} * units.deg,
+        exhaust_lobe_center: {} * units.deg
+    )\n\n""".format(self.camshaft_node_name, self.intake_lobe_center, self.exhaust_lobe_center))
         
-        file.write("""    function timing_curve(4000 * units.rpm)
-    timing_curve
-        .add_sample(0000 * units.rpm, 18 * units.deg)
-        .add_sample(4000 * units.rpm, 40 * units.deg)
-        .add_sample(8000 * units.rpm, 40 * units.deg)
-        .add_sample(12000 * units.rpm, 40 * units.deg)
-        .add_sample(14000 * units.rpm, 40 * units.deg)
-        .add_sample(18000 * units.rpm, 40 * units.deg)\n\n""")
+        file.write("""    function timing_curve(1000 * units.rpm)
+    timing_curve""")
+        for point in self.timing_curve:
+            file.write("\n")
+            file.write("        .add_sample({} * units.rpm, {} * units.deg)".format(point[0], point[1]))
+
+        file.write("\n\n")
 
         file.write("""    ignition_module ignition_module(
         timing_curve: timing_curve,
@@ -508,58 +523,3 @@ impulse_response_library ir_lib()
             self.write_engine(file)
             self.write_vehicle_transmission(file)
             self.write_main_node(file)
-
-def generate_v24():
-    cylinders0 = []
-    cylinders1 = []
-    cylinders = []
-
-    for i in range(12):
-        cylinders0.append(i * 2)
-        cylinders1.append(i * 2 + 1)
-        cylinders += [i * 2, i * 2 + 1]
-
-    b0 = Bank(cylinders0, -45)
-    b1 = Bank(cylinders1, 45)
-    engine = Engine([b0, b1], cylinders)
-    engine.engine_name = "V24"
-    engine.starter_torque = 400
-    engine.crank_mass = 200
-
-    engine.generate()
-    engine.write_to_file("test.mr")
-
-def generate_v69():
-    cylinders0 = []
-    cylinders1 = []
-    cylinders = []
-
-    for i in range(34):
-        cylinders0.append(i * 2)
-        cylinders1.append(i * 2 + 1)
-        cylinders += [i * 2, i * 2 + 1]
-
-    cylinders0.append(68)
-    cylinders.append(68)
-
-    b0 = Bank(cylinders0, -34.5)
-    b1 = Bank(cylinders1, 34.5)
-    b1.flip = True
-    engine = Engine([b0, b1], cylinders)
-    engine.engine_name = "V69"
-    engine.starter_torque = 10000
-    engine.crank_mass = 2000
-    engine.bore = 197.9
-    engine.stroke = 197.9
-    engine.chamber_volume = 3000
-    engine.rod_length = engine.stroke * 1.75
-    engine.simulation_frequency = 1200
-    engine.max_sle_solver_steps = 4
-    engine.fluid_simulation_steps = 4
-    engine.idle_throttle_plate_position = 0.9
-
-    engine.generate()
-    engine.write_to_file("v69_engine.mr")
-
-if __name__ == "__main__":
-    generate_v69()
