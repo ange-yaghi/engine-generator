@@ -59,6 +59,17 @@ class Engine:
         self.crank_mass = 10
         self.flywheel_mass = 10
         self.flywheel_radius = 100
+        self.piston_mass = 50
+        self.piston_blowby = 0.0
+
+        self.plenum_volume = 1.325
+        self.plenum_cross_section_area = 20.0
+        self.intake_flow_rate = 3000
+        self.runner_flow_rate = 400
+        self.runner_length = 16
+        self.idle_flow_rate = 0
+
+        self.exhaust_length = 0
 
         self.camshaft_node_name = "generated_camshaft"
         self.lobe_separation = 114
@@ -332,11 +343,11 @@ class Engine:
         file.write("\n")
 
         file.write("""    piston_parameters piston_params(
-        mass: (50) * units.g, // 414 - piston mass, 152 - pin weight
+        mass: ({}) * units.g, // 414 - piston mass, 152 - pin weight
         compression_height: compression_height,
         wrist_pin_position: 0.0,
         displacement: 0.0
-    )\n\n""")
+    )\n\n""".format(self.piston_mass))
 
         file.write("""    connecting_rod_parameters cr_params(
         mass: rod_mass,
@@ -349,15 +360,15 @@ class Engine:
     )\n""")
         
         file.write("""    intake intake(
-        plenum_volume: 1.325 * units.L,
-        plenum_cross_section_area: 20.0 * units.cm2,
-        intake_flow_rate: k_carb(3000.0),
-        runner_flow_rate: k_carb(400.0),
-        runner_length: 16.0 * units.inch,
-        idle_flow_rate: k_carb(0.0),
+        plenum_volume: {} * units.L,
+        plenum_cross_section_area: {} * units.cm2,
+        intake_flow_rate: k_carb({}),
+        runner_flow_rate: k_carb({}),
+        runner_length: {} * units.inch,
+        idle_flow_rate: k_carb({}),
         idle_throttle_plate_position: {},
         velocity_decay: 0.5
-    )\n""".format(self.idle_throttle_plate_position))
+    )\n""".format(self.plenum_volume, self.plenum_cross_section_area, self.intake_flow_rate, self.runner_flow_rate, self.runner_length, self.idle_flow_rate, self.idle_throttle_plate_position))
 
         file.write("""    exhaust_system_parameters es_params(
         outlet_flow_rate: k_carb(2000.0),
@@ -370,9 +381,9 @@ class Engine:
             file.write("""    exhaust_system exhaust{}(
         es_params,
         audio_volume: 1.0 * 0.004,
-        length: 20 * units.inch,
+        length: {} * units.inch,
         impulse_response: ir_lib.minimal_muffling_01
-    )\n\n""".format(index))
+    )\n\n""".format(index, self.exhaust_length))
             
         file.write("""    cylinder_bank_parameters bank_params(
         bore: bore,
@@ -388,7 +399,7 @@ class Engine:
             file.write("    b{}\n".format(index))
             for cylinder_index, cylinder in enumerate(bank.cylinders):
                 file.write("""        .add_cylinder(
-            piston: piston(piston_params, blowby: k_28inH2O(0.0)),
+            piston: piston(piston_params, blowby: k_28inH2O({})),
             connecting_rod: connecting_rod(cr_params),
             rod_journal: rj{},
             intake: intake,
@@ -396,7 +407,7 @@ class Engine:
             ignition_wire: wires.wire{},
             sound_attenuation: {},
             primary_length: {} * spacing * 0.5 * units.cm
-        )\n""".format(cylinder, index, cylinder, random.uniform(0.5, 1.0), cylinder_index))
+        )\n""".format(self.piston_blowby, cylinder, index, cylinder, random.uniform(0.5, 1.0), cylinder_index))
                 
             file.write("""        .set_cylinder_head(
             {}(
