@@ -39,8 +39,6 @@ class Vehicle:
 
 class Engine:
     def __init__(self, banks, firing_order):
-        self.write_to_console = False
-    
         self.banks = banks
         self.starter_torque = 70
         self.starter_speed = 500
@@ -537,12 +535,11 @@ impulse_response_library ir_lib()
         self.write_vehicle_transmission(file)
         self.write_main_node(file)
 
-    def write_to_file(self, fname):
-        if(self.write_to_console):
-            file = io.StringIO()
-            __write(file)
-            print(file.getvalue())
-            return
-        
+    def write_to_console(self):
+        file = io.StringIO()
+        __write(file)
+        print(file.getvalue())
+
+def write_to_file(self, fname):
         with open(fname, 'w') as file:
             __write(file)
