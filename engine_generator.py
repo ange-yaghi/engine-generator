@@ -540,6 +540,6 @@ impulse_response_library ir_lib()
         __write(file)
         print(file.getvalue())
 
-def write_to_file(self, fname):
+    def write_to_file(self, fname):
         with open(fname, 'w') as file:
             __write(file)
