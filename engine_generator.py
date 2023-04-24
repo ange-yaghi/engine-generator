@@ -534,12 +534,15 @@ impulse_response_library ir_lib()
         self.write_engine(file)
         self.write_vehicle_transmission(file)
         self.write_main_node(file)
-
-    def write_to_console(self):
+        
+    def write_to_string(self):
         file = io.StringIO()
         self.__write(file)
-        print(file.getvalue())
+        return file.getvalue()
 
+    def write_to_console(self):
+        print(self.write_to_string())
+    
     def write_to_file(self, fname):
         with open(fname, 'w') as file:
             self.__write(file)
