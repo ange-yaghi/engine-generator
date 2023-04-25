@@ -1,4 +1,5 @@
 import random
+import io
 
 class Camshaft:
     def __init__(self):
@@ -513,9 +514,8 @@ class Engine:
 
 main()\n""".format(self.node_name, self.vehicle.node_name, self.transmission.node_name))
 
-    def write_to_file(self, fname):
-        with open(fname, 'w') as file:
-            file.write(
+    def __write(self, file):
+        file.write(
 """import "engine_sim.mr"
 
 units units()
@@ -524,13 +524,25 @@ impulse_response_library ir_lib()
             
 """)
 
-            file.write("private node wires {\n")
-            for cylinder in range(self.cylinder_count()):
-                file.write("    output wire{}: ignition_wire();\n".format(cylinder))
-            file.write("}\n\n")
+        file.write("private node wires {\n")
+        for cylinder in range(self.cylinder_count()):
+            file.write("    output wire{}: ignition_wire();\n".format(cylinder))
+        file.write("}\n\n")
 
-            self.write_head(file)
-            self.write_camshaft(file)
-            self.write_engine(file)
-            self.write_vehicle_transmission(file)
-            self.write_main_node(file)
+        self.write_head(file)
+        self.write_camshaft(file)
+        self.write_engine(file)
+        self.write_vehicle_transmission(file)
+        self.write_main_node(file)
+        
+    def write_to_string(self):
+        file = io.StringIO()
+        self.__write(file)
+        return file.getvalue()
+
+    def write_to_console(self):
+        print(self.write_to_string())
+    
+    def write_to_file(self, fname):
+        with open(fname, 'w') as file:
+            self.__write(file)
