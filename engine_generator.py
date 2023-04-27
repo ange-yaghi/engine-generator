@@ -70,7 +70,7 @@ class Engine:
         self.runner_length = 16
         self.idle_flow_rate = 0
 
-        self.exhaust_length = 0
+        self.exhaust_length = 20
 
         self.camshaft_node_name = "generated_camshaft"
         self.lobe_separation = 114
