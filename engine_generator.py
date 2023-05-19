@@ -73,6 +73,7 @@ class Engine:
         self.node_name = "generated_engine"
         self.engine_name = "Test Engine"
 
+        self.volume = 1.0
         self.hf_gain = 0.01
         self.noise = 1.0
         self.jitter = 0.1
@@ -312,8 +313,9 @@ class Engine:
         hf_gain: {},
         noise: {},
         jitter: {},
+        volume: {},
         simulation_frequency: {}
-    """.format(self.engine_name, self.starter_torque, self.starter_speed, self.redline, self.throttle_gamma, self.fuel.generate(), self.hf_gain, self.noise, self.jitter, self.simulation_frequency))
+    """.format(self.engine_name, self.starter_torque, self.starter_speed, self.redline, self.throttle_gamma, self.fuel.generate(), self.hf_gain, self.noise, self.jitter, self.volume, self.simulation_frequency))
         
         if self.engine_sim_version[2] >= 13:
             file.write(""",
