@@ -1,6 +1,30 @@
 import random
 import io
 
+class Fuel:
+    def __init__(self):
+        # Gasoline
+        self.molecular_mass = 100
+        self.energy_density = 48.1
+        self.density = 0.755
+        self.molecular_afr = 25 / 2.0
+        self.max_burning_efficiency = 0.8
+        self.burning_efficiency_randomness = 0.5
+        self.low_efficiency_attenuation = 0.6
+        self.max_turbulence_effect = 2
+        self.max_dilution_effect = 10
+
+    def generate(self):
+        return """molecular_mass: {} * units.g,
+            energy_density: {} * units.kJ / units.g,
+            density: {} * units.kg / units.L,
+            molecular_afr: {},
+            max_burning_efficiency: {},
+            burning_efficiency_randomness: {},
+            low_efficiency_attenuation: {},
+            max_turbulence_effect: {}
+            max_dilution_effect: {}""".format(self.molecular_mass, self.energy_density, self.density, self.molecular_afr, self.max_burning_efficiency, self.burning_efficiency_randomness, self.low_efficiency_attenuation, self.max_turbulence_effect, self.max_dilution_effect)
+
 class Camshaft:
     def __init__(self):
         self.lobes = []
@@ -40,6 +64,7 @@ class Vehicle:
 class Engine:
     def __init__(self, banks, firing_order):
         self.banks = banks
+        self.fuel = Fuel()
         self.starter_torque = 70
         self.starter_speed = 500
         self.redline = 8000
@@ -282,16 +307,13 @@ class Engine:
         redline: {} * units.rpm,
         throttle_gamma: {},
         fuel: fuel(
-            max_turbulence_effect: 10.0,
-            max_dilution_effect: 5.0,
-            burning_efficiency_randomness: 0.1,
-            max_burning_efficiency: 1.0
+            {}
         ),
         hf_gain: {},
         noise: {},
         jitter: {},
         simulation_frequency: {}
-    """.format(self.engine_name, self.starter_torque, self.starter_speed, self.redline, self.throttle_gamma, self.hf_gain, self.noise, self.jitter, self.simulation_frequency))
+    """.format(self.engine_name, self.starter_torque, self.starter_speed, self.redline, self.throttle_gamma, self.fuel.generate(), self.hf_gain, self.noise, self.jitter, self.simulation_frequency))
         
         if self.engine_sim_version[2] >= 13:
             file.write(""",
