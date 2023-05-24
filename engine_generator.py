@@ -22,7 +22,7 @@ class Fuel:
             max_burning_efficiency: {},
             burning_efficiency_randomness: {},
             low_efficiency_attenuation: {},
-            max_turbulence_effect: {}
+            max_turbulence_effect: {},
             max_dilution_effect: {}""".format(self.molecular_mass, self.energy_density, self.density, self.molecular_afr, self.max_burning_efficiency, self.burning_efficiency_randomness, self.low_efficiency_attenuation, self.max_turbulence_effect, self.max_dilution_effect)
 
 class Camshaft:
