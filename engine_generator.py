@@ -24,6 +24,175 @@ class Fuel:
             max_turbulence_effect: {self.max_turbulence_effect},
             max_dilution_effect: {self.max_dilution_effect}"""
 
+# Gasoline Regular
+gasoline_regular = Fuel(
+    molecular_mass=100,
+    energy_density=48.1,
+    density=0.755,
+    molecular_afr=25 / 2.0,
+    max_burning_efficiency=0.8,
+    burning_efficiency_randomness=0.5,
+    low_efficiency_attenuation=0.6,
+    max_turbulence_effect=2,
+    max_dilution_effect=10
+)
+
+# Gasoline Midgrade
+gasoline_midgrade = Fuel(
+    molecular_mass=100,
+    energy_density=48.1,
+    density=0.755,
+    molecular_afr=25 / 2.0,
+    max_burning_efficiency=0.8,
+    burning_efficiency_randomness=0.5,
+    low_efficiency_attenuation=0.6,
+    max_turbulence_effect=2,
+    max_dilution_effect=10
+)
+
+# Gasoline Premium
+gasoline_premium = Fuel(
+    molecular_mass=100,
+    energy_density=48.1,
+    density=0.755,
+    molecular_afr=25 / 2.0,
+    max_burning_efficiency=0.8,
+    burning_efficiency_randomness=0.5,
+    low_efficiency_attenuation=0.6,
+    max_turbulence_effect=2,
+    max_dilution_effect=10
+)
+
+# Hexane
+hexane = Fuel(
+    molecular_mass=86.18,
+    energy_density=44.6,
+    density=0.659,
+    molecular_afr=7.5,
+    max_burning_efficiency=0.75,
+    burning_efficiency_randomness=0.4,
+    low_efficiency_attenuation=0.7,
+    max_turbulence_effect=1.5,
+    max_dilution_effect=5
+)
+
+# High Octane Fuel
+high_octane_fuel = Fuel(
+    molecular_mass=100,
+    energy_density=48.1,
+    density=0.755,
+    molecular_afr=25 / 2.0,
+    max_burning_efficiency=0.8,
+    burning_efficiency_randomness=0.5,
+    low_efficiency_attenuation=0.6,
+    max_turbulence_effect=2,
+    max_dilution_effect=10
+)
+
+# Pure Octane Fuel
+pure_octane_fuel = Fuel(
+    molecular_mass=114.23,
+    energy_density=47.8,
+    density=0.692,
+    molecular_afr=14.7,
+    max_burning_efficiency=0.85,
+    burning_efficiency_randomness=0.3,
+    low_efficiency_attenuation=0.5,
+    max_turbulence_effect=1.8,
+    max_dilution_effect=8
+)
+
+# Hydrogen
+hydrogen = Fuel(
+    molecular_mass=2.016,
+    energy_density=141.8,
+    density=0.0899,
+    molecular_afr=34.3,
+    max_burning_efficiency=0.95,
+    burning_efficiency_randomness=0.1,
+    low_efficiency_attenuation=0.2,
+    max_turbulence_effect=1,
+    max_dilution_effect=2
+)
+
+# Oxygen
+oxygen = Fuel(
+    molecular_mass=31.998,
+    energy_density=0,
+    density=1.429,
+    molecular_afr=0,
+    max_burning_efficiency=0.0,
+    burning_efficiency_randomness=0.0,
+    low_efficiency_attenuation=0.0,
+    max_turbulence_effect=0,
+    max_dilution_effect=0
+)
+
+# Hydrogen-Oxygen Mix
+hydrogen_oxygen_mix = Fuel(
+    molecular_mass=18.015,
+    energy_density=120,
+    density=1.098,
+    molecular_afr=8,
+    max_burning_efficiency=0.9,
+    burning_efficiency_randomness=0.2,
+    low_efficiency_attenuation=0.4,
+    max_turbulence_effect=1.5,
+    max_dilution_effect=5
+)
+
+# Hydrazine
+hydrazine = Fuel(
+    molecular_mass=32.045,
+    energy_density=19.96,
+    density=1.004,
+    molecular_afr=6,
+    max_burning_efficiency=0.7,
+    burning_efficiency_randomness=0.6,
+    low_efficiency_attenuation=0.8,
+    max_turbulence_effect=1.2,
+    max_dilution_effect=4
+)
+
+# Ethanol
+ethanol = Fuel(
+    molecular_mass=46.07,
+    energy_density=29.7,
+    density=0.789,
+    molecular_afr=9,
+    max_burning_efficiency=0.75,
+    burning_efficiency_randomness=0.4,
+    low_efficiency_attenuation=0.7,
+    max_turbulence_effect=1.5,
+    max_dilution_effect=5
+)
+
+# Isopropyl Alcohol
+isopropyl_alcohol = Fuel(
+    molecular_mass=60.096,
+    energy_density=21,
+    density=0.785,
+    molecular_afr=12.5,
+    max_burning_efficiency=0.8,
+    burning_efficiency_randomness=0.5,
+    low_efficiency_attenuation=0.6,
+    max_turbulence_effect=2,
+    max_dilution_effect=10
+)
+
+# Kerosene
+kerosene = Fuel(
+    molecular_mass=156.27,
+    energy_density=36.4,
+    density=0.819,
+    molecular_afr=33,
+    max_burning_efficiency=0.85,
+    burning_efficiency_randomness=0.3,
+    low_efficiency_attenuation=0.5,
+    max_turbulence_effect=1.8,
+    max_dilution_effect=8
+)
+
 class Camshaft:
     def __init__(self):
         self.lobes = []
