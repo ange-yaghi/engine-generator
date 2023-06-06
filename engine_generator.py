@@ -193,6 +193,32 @@ kerosene = Fuel(
     max_dilution_effect=8
 )
 
+# NOS Fuel
+nos_fuel = Fuel(
+    molecular_mass=44.013,
+    energy_density=0,  # Assuming NOS doesn't provide energy
+    density=1.978,
+    molecular_afr=0,
+    max_burning_efficiency=0,  # Assuming NOS doesn't burn efficiently
+    burning_efficiency_randomness=0,
+    low_efficiency_attenuation=0,
+    max_turbulence_effect=0,
+    max_dilution_effect=0
+)
+
+# Fuel Mixture (Average of Pure Octane and NOS)
+nos_octane_fuel = Fuel(
+    molecular_mass=(pure_octane_fuel.molecular_mass + nos_fuel.molecular_mass) / 2,
+    energy_density=(pure_octane_fuel.energy_density + nos_fuel.energy_density) / 2,
+    density=(pure_octane_fuel.density + nos_fuel.density) / 2,
+    molecular_afr=(pure_octane_fuel.molecular_afr + nos_fuel.molecular_afr) / 2,
+    max_burning_efficiency=(pure_octane_fuel.max_burning_efficiency + nos_fuel.max_burning_efficiency) / 2,
+    burning_efficiency_randomness=(pure_octane_fuel.burning_efficiency_randomness + nos_fuel.burning_efficiency_randomness) / 2,
+    low_efficiency_attenuation=(pure_octane_fuel.low_efficiency_attenuation + nos_fuel.low_efficiency_attenuation) / 2,
+    max_turbulence_effect=(pure_octane_fuel.max_turbulence_effect + nos_fuel.max_turbulence_effect) / 2,
+    max_dilution_effect=(pure_octane_fuel.max_dilution_effect + nos_fuel.max_dilution_effect) / 2
+)
+
 class Camshaft:
     def __init__(self):
         self.lobes = []
