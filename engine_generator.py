@@ -2,28 +2,27 @@ import random
 import io
 
 class Fuel:
-    def __init__(self):
-        # Gasoline
-        self.molecular_mass = 100
-        self.energy_density = 48.1
-        self.density = 0.755
-        self.molecular_afr = 25 / 2.0
-        self.max_burning_efficiency = 0.8
-        self.burning_efficiency_randomness = 0.5
-        self.low_efficiency_attenuation = 0.6
-        self.max_turbulence_effect = 2
-        self.max_dilution_effect = 10
+    def __init__(self, molecular_mass, energy_density, density, molecular_afr, max_burning_efficiency, burning_efficiency_randomness, low_efficiency_attenuation, max_turbulence_effect, max_dilution_effect):
+        self.molecular_mass = molecular_mass
+        self.energy_density = energy_density
+        self.density = density
+        self.molecular_afr = molecular_afr
+        self.max_burning_efficiency = max_burning_efficiency
+        self.burning_efficiency_randomness = burning_efficiency_randomness
+        self.low_efficiency_attenuation = low_efficiency_attenuation
+        self.max_turbulence_effect = max_turbulence_effect
+        self.max_dilution_effect = max_dilution_effect
 
     def generate(self):
-        return """molecular_mass: {} * units.g,
-            energy_density: {} * units.kJ / units.g,
-            density: {} * units.kg / units.L,
-            molecular_afr: {},
-            max_burning_efficiency: {},
-            burning_efficiency_randomness: {},
-            low_efficiency_attenuation: {},
-            max_turbulence_effect: {},
-            max_dilution_effect: {}""".format(self.molecular_mass, self.energy_density, self.density, self.molecular_afr, self.max_burning_efficiency, self.burning_efficiency_randomness, self.low_efficiency_attenuation, self.max_turbulence_effect, self.max_dilution_effect)
+        return f"""molecular_mass: {self.molecular_mass} * units.g,
+            energy_density: {self.energy_density} * units.kJ / units.g,
+            density: {self.density} * units.kg / units.L,
+            molecular_afr: {self.molecular_afr},
+            max_burning_efficiency: {self.max_burning_efficiency},
+            burning_efficiency_randomness: {self.burning_efficiency_randomness},
+            low_efficiency_attenuation: {self.low_efficiency_attenuation},
+            max_turbulence_effect: {self.max_turbulence_effect},
+            max_dilution_effect: {self.max_dilution_effect}"""
 
 class Camshaft:
     def __init__(self):
