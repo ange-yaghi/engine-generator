@@ -219,6 +219,19 @@ nos_octane_fuel = Fuel(
     max_dilution_effect=(pure_octane_fuel.max_dilution_effect + nos_fuel.max_dilution_effect) / 2
 )
 
+# Diesel Fuel
+diesel = Fuel(
+    molecular_mass=100,
+    energy_density=45.5,
+    density=0.85,
+    molecular_afr=14.5,
+    max_burning_efficiency=0.85,
+    burning_efficiency_randomness=0.3,
+    low_efficiency_attenuation=0.5,
+    max_turbulence_effect=1.8,
+    max_dilution_effect=8
+)
+
 class Camshaft:
     def __init__(self):
         self.lobes = []

@@ -1,6 +1,32 @@
 
 import engine_generator
 
+def generate_inline(style, cylinderCount):
+    print("Generating inline style engine...")
+
+def generate_v(style, cylinderCount):
+    print("Generating V style engine...")
+
+def generate_custom_engine():
+    print("Generating custom engine...")
+    print("Engine Styles:\n   - Inline\n   - V")
+    style = input("Enter style: ")
+    if style.lower() != "inline" or style.lower() != "v":
+        print("Invalid style. Must either be inline or v.")
+        return
+    cylinderCount = int(input("Enter cylinder count: "))
+    if cylinderCount <= 0:
+        print("Invalid cylinders, must be greater than 0.")
+        return
+    if cylinderCount == 1 and style.lower() == "v":
+        print("Invalid cylinders, must be greater than 1 for V style.")
+        return
+    if style.lower() == "inline":
+        generate_inline(style, cylinderCount)
+    elif style.lower() == "v":
+        generate_v(style, cylinderCount)
+    
+
 def generate_i4():
     cylinders0 = []
     cylinders = [0,2,3,1]

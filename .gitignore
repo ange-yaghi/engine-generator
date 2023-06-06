@@ -1,3 +1,4 @@
 
 *.mr
 __pycache__
+.vscode/
