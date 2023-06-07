@@ -1,15 +1,42 @@
 
 import engine_generator
 
-def calculate_firing_order(cylinderCount):
-    firing_order = []
-    for i in range(1, cylinderCount + 1):
-        firing_order.append(i)
+def generate_firing_order_inline(cylinders):
+    if cylinders < 2:
+        return "Invalid number of cylinders. Minimum of 2 cylinders required."
+
+    if cylinders % 2 != 0:
+        firing_order = [1]
+        for i in range(3, cylinders + 1, 2):
+            firing_order.append(i)
+        firing_order.append(2)
+    else:
+        adjusted_cylinders = cylinders - 1
+        firing_order = [2]
+        for i in range(4, adjusted_cylinders + 1, 2):
+            firing_order.insert(0, i)
+        firing_order.append(1)
+        firing_order.append(cylinders)
+
     return firing_order
+
+def generate_firing_order_v(cylinders):
+    if cylinders < 4:
+        return "Invalid number of cylinders. Minimum of 4 cylinders required."
+
+    left_bank = []
+    right_bank = []
+    for i in range(1, cylinders + 1):
+        if i % 2 == 0:
+            right_bank.append(i)
+        else:
+            left_bank.append(i)
+    
+    return left_bank + right_bank
 
 def generate_inline(style, cylinderCount):
     print("Generating inline style engine...")
-    cylinders = calculate_firing_order(cylinderCount)
+    cylinders = generate_inline_firing_order(cylinderCount)
     cylinders0 = []
 
     for i in range(1, cylinderCount + 1):
@@ -17,12 +44,12 @@ def generate_inline(style, cylinderCount):
     
     bank = engine_generator.Bank(cylinders0, 0)
     engine = engine_generator.Engine([bank], cylinders)
-    engine.engine_name = "V69"
-    engine.starter_torque = 10000
-    engine.crank_mass = 2000
-    engine.bore = 197.9
-    engine.stroke = 197.9
-    engine.chamber_volume = 3000
+    engine.engine_name = input("Engine name: ")
+    engine.starter_torque = int(input("Starter torque: "))
+    engine.crank_mass = int(input("Crank mass: "))
+    engine.bore = float(input("Cylinder bore: "))
+    engine.stroke = float(input("Cylinder stroke: "))
+    engine.chamber_volume = int(input("Chamber volume: "))
     engine.rod_length = engine.stroke * 1.75
     engine.simulation_frequency = 1200
     engine.max_sle_solver_steps = 4
