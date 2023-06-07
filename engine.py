@@ -1,5 +1,12 @@
 
 import engine_generator
+import re
+
+def strip_special_characters(string):
+    # Replace spaces and special characters with underscores
+    stripped_string = re.sub(r'\W+', '_', string.replace(' ', '_'))
+
+    return stripped_string
 
 def generate_firing_order_inline(cylinders):
     if cylinders < 2:
@@ -32,11 +39,11 @@ def generate_firing_order_v(cylinders):
         else:
             left_bank.append(i)
     
-    return left_bank + right_bank
+    return left_bank + right_bank, left_bank, right_bank
 
-def generate_inline(style, cylinderCount):
+def generate_inline(cylinderCount):
     print("Generating inline style engine...")
-    cylinders = generate_inline_firing_order(cylinderCount)
+    cylinders = generate_firing_order_inline(cylinderCount)
     cylinders0 = []
 
     for i in range(1, cylinderCount + 1):
@@ -50,17 +57,16 @@ def generate_inline(style, cylinderCount):
     engine.bore = float(input("Cylinder bore: "))
     engine.stroke = float(input("Cylinder stroke: "))
     engine.chamber_volume = int(input("Chamber volume: "))
-    engine.rod_length = engine.stroke * 1.75
-    engine.simulation_frequency = 1200
-    engine.max_sle_solver_steps = 4
-    engine.fluid_simulation_steps = 4
-    engine.idle_throttle_plate_position = 0.9
+    engine.rod_length = float(input("Cylinder rod length: "))
+    engine.simulation_frequency = int(input("Simulation frequency (default 1200): "))
+    engine.max_sle_solver_steps = int(input("Max sle solver steps (default 4): "))
+    engine.fluid_simulation_steps = int(input("Fluid simulation steps (default 4): "))
+    engine.idle_throttle_plate_position = float(input("Idle throttle plate position: "))
 
     engine.generate()
-    engine.write_to_file("i4.mr")
+    engine.write_to_file(strip_special_characters(engine.engine_name) + ".mr")
 
-
-def generate_v(style, cylinderCount):
+def generate_v(cylinderCount):
     print("Generating V style engine...")
 
 def generate_custom_engine():
@@ -71,16 +77,16 @@ def generate_custom_engine():
         print("Invalid style. Must either be inline or v.")
         return
     cylinderCount = int(input("Enter cylinder count: "))
-    if cylinderCount <= 0:
-        print("Invalid cylinders, must be greater than 0.")
+    if cylinderCount < 2:
+        print("Invalid cylinders, must be greater than 1 for inline style.")
         return
-    if cylinderCount == 1 and style.lower() == "v":
-        print("Invalid cylinders, must be greater than 1 for V style.")
+    if cylinderCount < 4 and style.lower() == "v":
+        print("Invalid cylinders, must be greater than 3 for V style.")
         return
     if style.lower() == "inline":
-        generate_inline(style, cylinderCount)
+        generate_inline(cylinderCount)
     elif style.lower() == "v":
-        generate_v(style, cylinderCount)
+        generate_v(cylinderCount)
 
 def generate_v24():
     cylinders0 = []
