@@ -1,8 +1,37 @@
 
 import engine_generator
 
+def calculate_firing_order(cylinderCount):
+    firing_order = []
+    for i in range(1, cylinderCount + 1):
+        firing_order.append(i)
+    return firing_order
+
 def generate_inline(style, cylinderCount):
     print("Generating inline style engine...")
+    cylinders = calculate_firing_order(cylinderCount)
+    cylinders0 = []
+
+    for i in range(1, cylinderCount + 1):
+        cylinders0.append(i)
+    
+    bank = engine_generator.Bank(cylinders0, 0)
+    engine = engine_generator.Engine([bank], cylinders)
+    engine.engine_name = "V69"
+    engine.starter_torque = 10000
+    engine.crank_mass = 2000
+    engine.bore = 197.9
+    engine.stroke = 197.9
+    engine.chamber_volume = 3000
+    engine.rod_length = engine.stroke * 1.75
+    engine.simulation_frequency = 1200
+    engine.max_sle_solver_steps = 4
+    engine.fluid_simulation_steps = 4
+    engine.idle_throttle_plate_position = 0.9
+
+    engine.generate()
+    engine.write_to_file("i4.mr")
+
 
 def generate_v(style, cylinderCount):
     print("Generating V style engine...")
@@ -25,24 +54,6 @@ def generate_custom_engine():
         generate_inline(style, cylinderCount)
     elif style.lower() == "v":
         generate_v(style, cylinderCount)
-    
-
-def generate_i4():
-    cylinders0 = []
-    cylinders = [0,2,3,1]
-
-    for i in range(4):
-        cylinders0.append(i)
-
-    bank = engine_generator.Bank(cylinders0, 0)
-    engine = engine_generator.Engine([bank], cylinders)
-    engine.engine_name = "I4"
-    engine.starter_torque = 400
-    engine.chamber_volume = 70
-
-    engine.generate()
-    engine.write_to_file("i4.mr")
-
 
 def generate_v24():
     cylinders0 = []

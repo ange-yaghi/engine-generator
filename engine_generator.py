@@ -26,41 +26,41 @@ class Fuel:
 
 # Gasoline Regular
 gasoline_regular = Fuel(
-    molecular_mass=100,
-    energy_density=48.1,
-    density=0.755,
-    molecular_afr=25 / 2.0,
-    max_burning_efficiency=0.8,
-    burning_efficiency_randomness=0.5,
-    low_efficiency_attenuation=0.6,
-    max_turbulence_effect=2,
-    max_dilution_effect=10
+    molecular_mass=114.23,
+    energy_density=44.4,
+    density=0.737,
+    molecular_afr=14.7,
+    max_burning_efficiency=0.85,
+    burning_efficiency_randomness=0.3,
+    low_efficiency_attenuation=0.5,
+    max_turbulence_effect=1.8,
+    max_dilution_effect=8
 )
 
 # Gasoline Midgrade
 gasoline_midgrade = Fuel(
-    molecular_mass=100,
-    energy_density=48.1,
-    density=0.755,
-    molecular_afr=25 / 2.0,
-    max_burning_efficiency=0.8,
-    burning_efficiency_randomness=0.5,
-    low_efficiency_attenuation=0.6,
-    max_turbulence_effect=2,
-    max_dilution_effect=10
+    molecular_mass=114.23,
+    energy_density=45.2,
+    density=0.745,
+    molecular_afr=14.7,
+    max_burning_efficiency=0.85,
+    burning_efficiency_randomness=0.3,
+    low_efficiency_attenuation=0.5,
+    max_turbulence_effect=1.8,
+    max_dilution_effect=8
 )
 
 # Gasoline Premium
 gasoline_premium = Fuel(
-    molecular_mass=100,
-    energy_density=48.1,
-    density=0.755,
-    molecular_afr=25 / 2.0,
-    max_burning_efficiency=0.8,
-    burning_efficiency_randomness=0.5,
-    low_efficiency_attenuation=0.6,
-    max_turbulence_effect=2,
-    max_dilution_effect=10
+    molecular_mass=114.23,
+    energy_density=46.0,
+    density=0.753,
+    molecular_afr=14.7,
+    max_burning_efficiency=0.85,
+    burning_efficiency_randomness=0.3,
+    low_efficiency_attenuation=0.5,
+    max_turbulence_effect=1.8,
+    max_dilution_effect=8
 )
 
 # Hexane
@@ -178,6 +178,19 @@ isopropyl_alcohol = Fuel(
     low_efficiency_attenuation=0.6,
     max_turbulence_effect=2,
     max_dilution_effect=10
+)
+
+# Butyl Alcohol
+butyl_alcohol = Fuel(
+    molecular_mass=74.12,
+    energy_density=26.8,
+    density=0.81,
+    molecular_afr=12.5,
+    max_burning_efficiency=0.8,
+    burning_efficiency_randomness=0.4,
+    low_efficiency_attenuation=0.7,
+    max_turbulence_effect=1.5,
+    max_dilution_effect=5
 )
 
 # Kerosene
