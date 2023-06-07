@@ -77,7 +77,7 @@ hexane = Fuel(
 )
 
 # High Octane Fuel
-high_octane_fuel = Fuel(
+high_octane = Fuel(
     molecular_mass=100,
     energy_density=48.1,
     density=0.755,
@@ -90,7 +90,7 @@ high_octane_fuel = Fuel(
 )
 
 # Pure Octane Fuel
-pure_octane_fuel = Fuel(
+pure_octane = Fuel(
     molecular_mass=114.23,
     energy_density=47.8,
     density=0.692,
@@ -129,7 +129,7 @@ oxygen = Fuel(
 )
 
 # Hydrogen-Oxygen Mix
-hydrogen_oxygen_mix = Fuel(
+hydrogen_oxygen = Fuel(
     molecular_mass=18.015,
     energy_density=120,
     density=1.098,
@@ -207,7 +207,7 @@ kerosene = Fuel(
 )
 
 # NOS Fuel
-nos_fuel = Fuel(
+nos = Fuel(
     molecular_mass=44.013,
     energy_density=0,  # Assuming NOS doesn't provide energy
     density=1.978,
@@ -220,16 +220,16 @@ nos_fuel = Fuel(
 )
 
 # Fuel Mixture (Average of Pure Octane and NOS)
-nos_octane_fuel = Fuel(
-    molecular_mass=(pure_octane_fuel.molecular_mass + nos_fuel.molecular_mass) / 2,
-    energy_density=(pure_octane_fuel.energy_density + nos_fuel.energy_density) / 2,
-    density=(pure_octane_fuel.density + nos_fuel.density) / 2,
-    molecular_afr=(pure_octane_fuel.molecular_afr + nos_fuel.molecular_afr) / 2,
-    max_burning_efficiency=(pure_octane_fuel.max_burning_efficiency + nos_fuel.max_burning_efficiency) / 2,
-    burning_efficiency_randomness=(pure_octane_fuel.burning_efficiency_randomness + nos_fuel.burning_efficiency_randomness) / 2,
-    low_efficiency_attenuation=(pure_octane_fuel.low_efficiency_attenuation + nos_fuel.low_efficiency_attenuation) / 2,
-    max_turbulence_effect=(pure_octane_fuel.max_turbulence_effect + nos_fuel.max_turbulence_effect) / 2,
-    max_dilution_effect=(pure_octane_fuel.max_dilution_effect + nos_fuel.max_dilution_effect) / 2
+nos_octane = Fuel(
+    molecular_mass=(pure_octane.molecular_mass + nos.molecular_mass) / 2,
+    energy_density=(pure_octane.energy_density + nos.energy_density) / 2,
+    density=(pure_octane.density + nos.density) / 2,
+    molecular_afr=(pure_octane.molecular_afr + nos.molecular_afr) / 2,
+    max_burning_efficiency=(pure_octane.max_burning_efficiency + nos.max_burning_efficiency) / 2,
+    burning_efficiency_randomness=(pure_octane.burning_efficiency_randomness + nos.burning_efficiency_randomness) / 2,
+    low_efficiency_attenuation=(pure_octane.low_efficiency_attenuation + nos.low_efficiency_attenuation) / 2,
+    max_turbulence_effect=(pure_octane.max_turbulence_effect + nos.max_turbulence_effect) / 2,
+    max_dilution_effect=(pure_octane.max_dilution_effect + nos.max_dilution_effect) / 2
 )
 
 # Diesel Fuel
@@ -282,9 +282,9 @@ class Vehicle:
         self.rolling_resistance = 200
 
 class Engine:
-    def __init__(self, banks, firing_order):
+    def __init__(self, banks, firing_order, fuel_type):
         self.banks = banks
-        self.fuel = Fuel()
+        self.fuel = fuel_type()
         self.starter_torque = 70
         self.starter_speed = 500
         self.redline = 8000

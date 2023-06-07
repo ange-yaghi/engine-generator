@@ -2,6 +2,35 @@
 import engine_generator
 import re
 
+class Fuel_Type:
+    fuel_types = {
+        "regular": "gasoline_regular",
+        "midgrade": "gasoline_midgrade",
+        "premium": "gasoline_premium",
+        "hexane": "hexane",
+        "high octane": "high_octane",
+        "pure octane": "pure_octane",
+        "hydrogen": "hydrogen",
+        "oxygen": "oxygen",
+        "hydrogen oxygen": "hydrogen_oxygen",
+        "hydrazine": "hydrazine",
+        "ethanol": "ethanol",
+        "isopropyl alcohol": "isopropyl_alcohol",
+        "butyl alcohol": "butyl_alcohol",
+        "kerosene": "kerosene",
+        "nos": "nos",
+        "nos octane": "nos_octane",
+        "diesel": "diesel"
+    }
+
+    @staticmethod
+    def getFuelType(fuel_type):
+        fuel_type = fuel_type.lower()
+        if fuel_type in Fuel_Type.fuel_types:
+            return getattr(engine_generator, Fuel_Type.fuel_types[fuel_type])()
+        else:
+            print(f"{fuel_type} is an invalid fuel type")
+
 def strip_special_characters(string):
     # Replace spaces and special characters with underscores
     stripped_string = re.sub(r'\W+', '_', string.replace(' ', '_'))
@@ -101,7 +130,7 @@ def generate_custom_engine():
     print("Generating custom engine...")
     print("Engine Styles:\n   - Inline\n   - V")
     style = input("Enter style: ")
-    if style.lower() != "inline" or style.lower() != "v":
+    if style.lower() != "inline" and style.lower() != "v":
         print("Invalid style. Must either be inline or v.")
         return
     cylinderCount = int(input("Enter cylinder count: "))
