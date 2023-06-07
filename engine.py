@@ -2,34 +2,43 @@
 import engine_generator
 import re
 
+import engine_generator
+
 class Fuel_Type:
     fuel_types = {
-        "regular": "gasoline_regular",
-        "midgrade": "gasoline_midgrade",
-        "premium": "gasoline_premium",
-        "hexane": "hexane",
-        "high octane": "high_octane",
-        "pure octane": "pure_octane",
-        "hydrogen": "hydrogen",
-        "oxygen": "oxygen",
-        "hydrogen oxygen": "hydrogen_oxygen",
-        "hydrazine": "hydrazine",
-        "ethanol": "ethanol",
-        "isopropyl alcohol": "isopropyl_alcohol",
-        "butyl alcohol": "butyl_alcohol",
-        "kerosene": "kerosene",
-        "nos": "nos",
-        "nos octane": "nos_octane",
-        "diesel": "diesel"
+        "regular": engine_generator.gasoline_regular,
+        "midgrade": engine_generator.gasoline_midgrade,
+        "premium": engine_generator.gasoline_premium,
+        "hexane": engine_generator.hexane,
+        "high octane": engine_generator.high_octane,
+        "pure octane": engine_generator.pure_octane,
+        "hydrogen": engine_generator.hydrogen,
+        "oxygen": engine_generator.oxygen,
+        "hydrogen oxygen": engine_generator.hydrogen_oxygen,
+        "hydrazine": engine_generator.hydrazine,
+        "ethanol": engine_generator.ethanol,
+        "isopropyl alcohol": engine_generator.isopropyl_alcohol,
+        "butyl alcohol": engine_generator.butyl_alcohol,
+        "kerosene": engine_generator.kerosene,
+        "nos": engine_generator.nos,
+        "nos octane": engine_generator.nos_octane,
+        "diesel": engine_generator.diesel
     }
 
     @staticmethod
     def getFuelType(fuel_type):
         fuel_type = fuel_type.lower()
         if fuel_type in Fuel_Type.fuel_types:
-            return getattr(engine_generator, Fuel_Type.fuel_types[fuel_type])()
+            fuel = Fuel_Type.fuel_types[fuel_type]
+            return fuel.generate()
         else:
             print(f"{fuel_type} is an invalid fuel type")
+
+    @staticmethod
+    def printAvailableFuelTypes():
+        print("Available fuel types:")
+        for fuel_type in Fuel_Type.fuel_types:
+            print(f"- {fuel_type.capitalize()}")
 
 def strip_special_characters(string):
     # Replace spaces and special characters with underscores
@@ -77,7 +86,7 @@ def generate_firing_order_v(cylinders):
     
     return left_bank + right_bank, left_bank, right_bank
 
-def generate_inline(cylinderCount):
+def generate_inline(cylinderCount, fuel_type):
     print("Generating inline style engine...")
     cylinders = generate_firing_order_inline(cylinderCount)
     cylinders0 = []
@@ -86,7 +95,7 @@ def generate_inline(cylinderCount):
         cylinders0.append(i)
     
     bank = engine_generator.Bank(cylinders0, 0)
-    engine = engine_generator.Engine([bank], cylinders)
+    engine = engine_generator.Engine([bank], cylinders, fuel_type)
     engine.engine_name = input("Engine name: ")
     engine.starter_torque = int(input("Starter torque: "))
     engine.crank_mass = int(input("Crank mass: "))
@@ -102,14 +111,14 @@ def generate_inline(cylinderCount):
     engine.generate()
     engine.write_to_file(strip_special_characters(engine.engine_name) + ".mr")
 
-def generate_v(cylinderCount):
+def generate_v(cylinderCount, fuel_type):
     print("Generating V style engine...")
     cylinders, cylinders0, cylinders1 = generate_firing_order_v(cylinderCount)
 
     bank0 = engine_generator.Bank(cylinders0, -45)
     bank1 = engine_generator.Bank(cylinders1, 45)
 
-    engine = engine_generator.Engine([bank0, bank1], cylinders)
+    engine = engine_generator.Engine([bank0, bank1], cylinders, fuel_type)
     
     engine.engine_name = input("Engine name: ")
     engine.starter_torque = int(input("Starter torque: "))
@@ -128,6 +137,10 @@ def generate_v(cylinderCount):
 
 def generate_custom_engine():
     print("Generating custom engine...")
+
+    Fuel_Type.printAvailableFuelTypes()
+    fuel_type = Fuel_Type.getFuelType(input("Fuel type: "))
+
     print("Engine Styles:\n   - Inline\n   - V")
     style = input("Enter style: ")
     if style.lower() != "inline" and style.lower() != "v":
@@ -141,9 +154,9 @@ def generate_custom_engine():
         print("Invalid cylinders, must be greater than 3 for V style.")
         return
     if style.lower() == "inline":
-        generate_inline(cylinderCount)
+        generate_inline(cylinderCount, fuel_type)
     elif style.lower() == "v":
-        generate_v(cylinderCount)
+        generate_v(cylinderCount, fuel_type)
 
 if __name__ == "__main__":
     generate_custom_engine()
