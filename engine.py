@@ -29,8 +29,7 @@ class Fuel_Type:
     def getFuelType(fuel_type):
         fuel_type = fuel_type.lower()
         if fuel_type in Fuel_Type.fuel_types:
-            fuel = Fuel_Type.fuel_types[fuel_type]
-            return fuel.generate()
+            return Fuel_Type.fuel_types[fuel_type]
         else:
             print(f"{fuel_type} is an invalid fuel type")
 
@@ -39,6 +38,7 @@ class Fuel_Type:
         print("Available fuel types:")
         for fuel_type in Fuel_Type.fuel_types:
             print(f"- {fuel_type.capitalize()}")
+
 
 def strip_special_characters(string):
     # Replace spaces and special characters with underscores
